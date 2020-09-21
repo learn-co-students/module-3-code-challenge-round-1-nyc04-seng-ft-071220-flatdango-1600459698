@@ -1,5 +1,4 @@
 const FilmUrl = "http://localhost:3000/films"
-
 const posterDiv = document.querySelector("img#poster")
 const titleDiv = document.querySelector("div#title.title")
 const runtimeDiv = document.querySelector("div#runtime.meta")
@@ -7,23 +6,36 @@ const infoDiv = document.querySelector("div#film-info")
 const showtimeSpan = document.querySelector("span#showtime.ui.label")
 const ticketNumSpan = document.querySelector("span#ticket-num")
 const ticketBtn = document.querySelector("div.ui.orange.button")
+const movieDiv = document.querySelector("div#films.ui.divided.list")
 let ticketLeft = 0
 let ticketSold = 0
-
-
+let allFilms = []
 
 fetch(FilmUrl, { method: "GET"})
     .then(res => res.json())
     .then((filmsPOJO) => {
-        const allFilms = filmsPOJO
-        console.log(allFilms)
+        allFilms = filmsPOJO
+        const titleLi = allFilms.map((movie) => `<div class="film item" id="${movie.id}">${movie.title}</div>`)
+        movieDiv.innerHTML = titleLi.join('')
+        
+ 
+
+        movieDiv.addEventListener("mouseover", (event) => {   
+            event.target.style.color = "orange";
+            setTimeout(function() {
+              event.target.style.color = "";
+            }, 300);
+          }, false);
+
+
+        movieDiv.addEventListener('click', (event) => {
+            let selectedFilmId = event.target.id
+            loadFilm(selectedFilmId)
+
+        })
+
 
     })
-
-
-
-
-
 
 
 function loadFilm(filmId) {
@@ -39,6 +51,10 @@ fetch(`http://localhost:3000/films/${filmId}`, { method: "GET" })
         ticketSold = film.tickets_sold
         ticketLeft = film.capacity - film.tickets_sold
         ticketNumSpan.innerText = `${ticketLeft}`
+        if (ticketLeft == 0) {
+            ticketBtn.className = "ui label"
+            ticketBtn.innerText = "SOLD OUT"
+        }
     })
 
     ticketBtn.addEventListener('click', (evt) => {
@@ -71,21 +87,4 @@ fetch(`http://localhost:3000/films/${filmId}`, { method: "GET" })
 }
 
 
-
-
-
-
-
-
-
-
-
-
-loadFilm(3)
-
-//2. Buy a ticket for a movie.
-//The number of tickets sold for that movie should be persisted,
-//and I should be able to see the number of available tickets decreasing on the frontend.
-
-
-//3. should not be able to buy a ticket if the showing is sold out.
+loadFilm(1) //default page should point to the first movie since the placeholder poster is creepy.
