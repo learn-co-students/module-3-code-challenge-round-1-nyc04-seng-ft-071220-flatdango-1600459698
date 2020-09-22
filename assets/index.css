@@ -37,8 +37,21 @@ body {
     font-size: 20px;
 }
 
+.film:hover {
+    cursor: pointer;
+}
+
 .sold-out {
     color: lightgray;
+}
+
+.sold-out-film {
+    color: lightgray;
+}
+
+.sold-out-film:hover {
+    color: lightgray;
+    cursor: pointer;
 }
 
 img {
