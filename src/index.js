@@ -13,17 +13,6 @@ let movieMenuContainer = document.querySelector("div.list-container")
 let movieMenuList = document.querySelector("div#films")
 // let movieMenuItem = document.querySelector("div.film.item")
 
-// DELIVERABLE 1 - DONE
-// See the first movie's details, including its 
-// poster, title, runtime, showtime, and available tickets 
-// the number of tickets left will need to be derived from the theater's capacity && num of tickets sold
-
-//DELIVERABLE 2 - DONE
-// Buy a ticket for a movie. The number of tickets sold for that movie should be persisted, 
-// and I should be able to see the number of available tickets decreasing on the frontend.
-
-// DELIVERABLE 3 - DONE
-// I should not be able to buy a ticket if the showing is sold out.
 
 fetch("http://localhost:3000/films/1")
 .then(response => response.json())
@@ -75,6 +64,7 @@ let findRemainingTickets = (theaterCapacity, soldTickets) => {
 fetch(url)
 .then(response => response.json())
 .then(movieArray => {
+    // clears the list first
     while (movieMenuList.firstChild) {
         movieMenuList.firstChild.remove()
     }
@@ -90,4 +80,8 @@ let turnMovieToDiv = (movie) => {
     movieDiv.innerText = movie.title
 
     movieMenuList.append(movieDiv)
+
+    movieDiv.addEventListener("click", (evt) => {
+        displayMovieInfo(movie)
+    })
 }
