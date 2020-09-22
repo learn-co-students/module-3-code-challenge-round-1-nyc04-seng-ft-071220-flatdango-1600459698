@@ -30,6 +30,8 @@ As a user, I can:
 - Buy a ticket for a movie. The number of tickets sold for that movie should be persisted, and I should be able to see the number of available tickets decreasing on the frontend.
 - I should not be able to buy a ticket if the showing is sold out.
 
+
+
 ## Advanced Deliverables:
 
 These deliverables are not required to pass the code challenge, but if you have extra time, you should attempt them!  They are a great way to stretch your skills.
