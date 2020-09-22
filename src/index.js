@@ -27,13 +27,13 @@ fetch(url)
     let ticketCount=(movieArray[0].capacity-movieArray[0].tickets_sold)
 
   
-   button.addEventListener("click",  (e) => {
+button.addEventListener("click",  (e) => {
         e.preventDefault()
        let currentTics=movieArray[0].tickets_sold +1
        let cap=movieArray[0].capacity
    
     
-    fetch(`${url}/${movieArray[0].id}`, {
+fetch(`${url}/${movieArray[0].id}`, {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json"
@@ -42,8 +42,8 @@ fetch(url)
             tickets_sold: currentTics
         })
     })
-    .then(resp => resp.json())
-    .then(updatedTickets =>{
+ .then(resp => resp.json())
+ .then(updatedTickets =>{
         tickets.innerText=cap-updatedTickets.tickets_sold
         let newValue=(cap-updatedTickets.tickets_sold)
      if(newValue>0){
@@ -51,8 +51,6 @@ fetch(url)
      }else{
         button.innerText="Sold OUT"
      }
-
-     //I can only hit the buy tickets once. Have to refresh to be able to hit it again
     })
     
 })
