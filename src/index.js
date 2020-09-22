@@ -8,6 +8,11 @@ let movieShowtime = document.querySelector("span#showtime")
 let movieRemainingTickets = document.querySelector("span#ticket-num")
 let buyTicket = document.querySelector("div.ui.orange.button")
 
+let movieMenuMainDiv = document.querySelector("div.four.wide.column")
+let movieMenuContainer = document.querySelector("div.list-container")
+let movieMenuList = document.querySelector("div#films")
+// let movieMenuItem = document.querySelector("div.film.item")
+
 // DELIVERABLE 1 - DONE
 // See the first movie's details, including its 
 // poster, title, runtime, showtime, and available tickets 
@@ -23,10 +28,10 @@ let buyTicket = document.querySelector("div.ui.orange.button")
 fetch("http://localhost:3000/films/1")
 .then(response => response.json())
 .then(firstMovieObj => {
-    movieInfo(firstMovieObj)
+    displayMovieInfo(firstMovieObj)
 })
 
-let movieInfo = (movie) => {
+let displayMovieInfo = (movie) => {
     moviePoster.src = movie.poster
     movieTitle.innerText = movie.title
     movieRuntime.innerText = `${movie.runtime} minutes`
@@ -35,10 +40,8 @@ let movieInfo = (movie) => {
 
     let tickets = findRemainingTickets(movie.capacity, movie.tickets_sold)
     movieRemainingTickets.innerText = tickets
-    // debugger
 
     buyTicket.addEventListener("click", (evt) => {
-        // debugger
         if (tickets > 0) {
             let boughtTicket = movie.tickets_sold + 1
             //updates the backend
@@ -53,7 +56,6 @@ let movieInfo = (movie) => {
             })
             .then(response => response.json())
             .then(updatedMovieObj=> {
-                // debugger
                 //updates the object in memory
                 movie.tickets_sold = updatedMovieObj.tickets_sold
 
@@ -70,3 +72,22 @@ let findRemainingTickets = (theaterCapacity, soldTickets) => {
     return theaterCapacity - soldTickets
 }
 
+fetch(url)
+.then(response => response.json())
+.then(movieArray => {
+    while (movieMenuList.firstChild) {
+        movieMenuList.firstChild.remove()
+    }
+
+    movieArray.forEach(movieObj => {
+        turnMovieToDiv(movieObj)
+    })
+})
+
+let turnMovieToDiv = (movie) => {
+    let movieDiv = document.createElement("div")
+    movieDiv.className = "film item"
+    movieDiv.innerText = movie.title
+
+    movieMenuList.append(movieDiv)
+}
