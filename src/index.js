@@ -1,6 +1,5 @@
 const url = "http://localhost:3000/films"
 //**poster, title, runtime, showtime, and available tickets**
-// let filmsCollection = document.querySelector("films#films-Coll")
 
 fetch("http://localhost:3000/films/1")
     .then(resp => resp .json()) 
@@ -33,16 +32,21 @@ fetch("http://localhost:3000/films/1")
         // console.log(filmObj.description)
     
     let ticketNum = document.querySelector("#ticket-num")
-        ticketNum.innerText = filmObj.tickets_sold
+        ticketNum.innerText = filmObj.capicity- filmObj.tickets_sold
         // console.log(filmObj.tickets_sold) 
 
 }
 
     buyButton.addEventListner("click", (evt) =>{
-        let theRemainingTickets = ticket.num + 1 
+        let theRemainingTickets = filmObj.tickets_sold + 1 
         console.log("Your ticket Purchase was Successful")
 
+
     })
+
+
+  
+
 
 
     
