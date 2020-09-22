@@ -26,9 +26,7 @@ fetch(url)
     tickets.innerText=(movieArray[0].capacity-movieArray[0].tickets_sold)
     let ticketCount=(movieArray[0].capacity-movieArray[0].tickets_sold)
 
-  if(ticketCount<1){
-    button.innerText="Sold OUT"
-}else {
+  
    button.addEventListener("click",  (e) => {
         e.preventDefault()
        let currentTics=movieArray[0].tickets_sold +1
@@ -47,13 +45,19 @@ fetch(url)
     .then(resp => resp.json())
     .then(updatedTickets =>{
         tickets.innerText=cap-updatedTickets.tickets_sold
-       updatedTickets.tickets_sold=movieArray[0].tickets_sold 
+        let newValue=(cap-updatedTickets.tickets_sold)
+     if(newValue>0){
+        movieArray[0].tickets_sold=updatedTickets.tickets_sold
+     }else{
+        button.innerText="Sold OUT"
+     }
+
      //I can only hit the buy tickets once. Have to refresh to be able to hit it again
     })
     
 })
-}
-
 })
+
+
 
 
