@@ -42,6 +42,7 @@ fetch(filmUrl, { method: "GET"})
 
 ////////////////////////////////////////////////////////////////////////
 
+
 let createTitles = (allMovies) => {
     allMovies.forEach((movie) =>{
     const titleLi = document.createElement("div") 
@@ -74,6 +75,7 @@ let createTitles = (allMovies) => {
         .then(res => res.json())
         .then((filmPOJO) => {
             film = filmPOJO
+
             posterDiv.src = film.poster
             titleDiv.innerText = film.title
             runtimeDiv.innerText = `${film.runtime} minutes`
@@ -95,6 +97,8 @@ let createTitles = (allMovies) => {
         })
     }
 
+///////////////////////////////////////////////////////////////////////
+
     ticketBtn.addEventListener('click', (evt) => {
         if (ticketLeft > 0) {
             ticketLeft = ticketLeft - 1
@@ -114,12 +118,14 @@ let createTitles = (allMovies) => {
         if (ticketLeft == 0) {
             ticketBtn.className = "ui label"
             ticketBtn.innerText = "SOLD OUT"
-            
+            let updatedMovieDiv = document.getElementById(`${film.id}`)
+            // console.log(updatedMovieDiv)
+            updatedMovieDiv.className = "sold-out film item"
+            // console.log(updatedMovieDiv)
         }
     })
 
 
+///////////////////////////////////////////////////////////////////////
 
-
-//DEFAULT PAGE
 loadFilm(1) 
