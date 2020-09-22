@@ -97,7 +97,6 @@ let displayMovieInfo = (selectedMovie) => {
 // Clicking on the "Buy Ticket" Button on the display of a selected movie
 buyTicket.addEventListener("click", (evt) => {
     // should not be able to buy a ticket if the movie is sold out
-    debugger
     if (parseInt(movieRemainingTickets.innerText) > 0) {
         let boughtTicket = globalMovie.tickets_sold + 1 // increase the tickets sold by 1 for the movie
         //updates the backend
@@ -117,7 +116,6 @@ buyTicket.addEventListener("click", (evt) => {
 
             //updates the DOM
             movieRemainingTickets.innerText = findRemainingTickets(updatedMovieObj)
-            debugger
 
             // immediately reflects on the DOM that if the movie is sold out...
                 // find the movie's div on the side menu to change the css styling
