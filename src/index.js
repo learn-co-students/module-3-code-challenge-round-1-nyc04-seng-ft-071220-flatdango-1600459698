@@ -10,6 +10,9 @@ let movieInfo = document.getElementById("film-info")
 let movieShowtime = document.getElementById("showtime")
 let movieTickets = document.getElementById("ticket-num")
 
+let globalFilmObj = {}
+
+
 //why is my buyTicket correct below but not document.getElementsByClassName(".ui.orange.button")
 let buyTicket = document.querySelector("div#showing.ui.cards")
 
@@ -24,13 +27,15 @@ fetch(url)
         })
 
        //invoking the function but highlighting wrong movie.
-         purchaseTicket(filmArr[0])
+       //  purchaseTicket(filmArr[0])
 
     })
 
 
 
 let showMeMovieInfo = movie => {
+
+    globalFilmObj = movie
 
     movieTitle.innerText = `${movie.title}`
     movieRuntime.innerText = `${movie.runtime} minutes`
@@ -47,26 +52,45 @@ let showMeMovieInfo = movie => {
 }
 
 
-let purchaseTicket = movie => {
+
 
 buyTicket.addEventListener("click", evt => {
-    evt.preventDefault()
     
+    
+    console.log("This is the globalFilmObj:", globalFilmObj)
+    capacity = `${globalFilmObj.capacity}`
+    ticketsSold = `${globalFilmObj.tickets_sold}`
+    
+    ticketsSold++
+
+    ticketsLeft = capacity - ticketsSold
     console.log("🐶")
+
+    console.log("Tickets sold:", ticketsSold)
     
-    fetch(`http://localhost:3000/films/${movie.id}`, {
-        method: 'POST', 
+    fetch(`http://localhost:3000/films/${globalFilmObj.id}`, {
+        method: 'PATCH', 
         headers: {
             'Content-Type': 'application/json',
          },
         body: JSON.stringify({
-            tickets_sold: ticketCount
+            tickets_sold: ticketsSold
             })
         })
         .then(res => res.json())
-        .then(something => {
-            console.log("what is this:", something)
+        .then(updatedObj => {
+            console.log("what is this:", updatedObj)
+
+            //Updating in memory 
+            ticketsSold = updatedObj.tickets_sold
+            
+
+            //Updating in the DOM
+            movieTickets.innerText = `${ticketsLeft}`
+
+           
+
             })
         
     })
-}
+//callback functions are at the mercy of the function that is receiving it
