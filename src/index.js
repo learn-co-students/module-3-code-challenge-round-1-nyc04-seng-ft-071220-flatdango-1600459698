@@ -17,7 +17,7 @@ let buyTicket = document.querySelector("div.ui.orange.button")
 // Buy a ticket for a movie. The number of tickets sold for that movie should be persisted, 
 // and I should be able to see the number of available tickets decreasing on the frontend.
 
-// DELIVERABLE 3 
+// DELIVERABLE 3 - DONE
 // I should not be able to buy a ticket if the showing is sold out.
 
 fetch("http://localhost:3000/films/1")
@@ -35,7 +35,8 @@ let movieInfo = (movie) => {
 
     let tickets = findRemainingTickets(movie.capacity, movie.tickets_sold)
     movieRemainingTickets.innerText = tickets
-    
+    // debugger
+
     buyTicket.addEventListener("click", (evt) => {
         // debugger
         if (tickets > 0) {
@@ -57,10 +58,12 @@ let movieInfo = (movie) => {
                 movie.tickets_sold = updatedMovieObj.tickets_sold
 
                 //updates the DOM
-                movieRemainingTickets.innerText = findRemainingTickets(updatedMovieObj.capacity, updatedMovieObj.tickets_sold)
+                tickets = findRemainingTickets(updatedMovieObj.capacity, updatedMovieObj.tickets_sold)
+                movieRemainingTickets.innerText = tickets
             })
         }
     })
+
 }
 
 let findRemainingTickets = (theaterCapacity, soldTickets) => {
