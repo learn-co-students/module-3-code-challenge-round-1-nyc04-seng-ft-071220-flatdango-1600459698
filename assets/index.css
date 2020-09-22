@@ -9,23 +9,23 @@ body {
 }
 
 .title {
-    background-color: #333333;
+    background-color: #f07229;
     padding: 5px;
     color: white;
 }
 
 #runtime {
     background-color: #333333;
-    color: #3E8FDE;
+    color: #4d99e6;
     padding: 0px 0px 5px 5px;
 }
 
 .content {
-    color: #3E8FDE;
+    color: #d93ede;
 }
 
 #subtitle {
-    color: white;
+    color: rgb(214, 46, 46);
     margin-left: 55px;
 }
 
