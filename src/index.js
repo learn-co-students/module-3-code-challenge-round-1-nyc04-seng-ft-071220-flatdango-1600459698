@@ -66,7 +66,7 @@ let orangeButton = document.querySelector(".ui.orange.button")
 
     let buyTickets = (ticketNum, filmObj) =>{
     //   EVENTLIStNTER STARTS HERE
- orangeButton.addEventListener("click",(evt) => {
+     orangeButton.addEventListener("click",(evt) => {
     
      console.log("hello");
     // fetch is inside the event listner
@@ -85,8 +85,12 @@ let orangeButton = document.querySelector(".ui.orange.button")
        .then(resp => resp.json())
        .then (updateTicket => {
           console.log(updateTicket);
-       ticketNum.innerText = updateTicket.capacity - updateTicket.tickets_sold
-
+         ticketNum.innerText = updateTicket.capacity - updateTicket.tickets_sold
+         if((updateTicket.capacity - updateTicket.tickets_sold )<= 0 ){
+            orangeButton.innerText = "sold out"
+            orangeButton.className = "sold-out"
+            // return orangeButton
+        }
 
 
 
