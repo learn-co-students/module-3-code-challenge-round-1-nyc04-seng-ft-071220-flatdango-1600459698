@@ -13,53 +13,12 @@ let movieMenuContainer = document.querySelector("div.list-container")
 let movieMenuList = document.querySelector("div#films")
 // let movieMenuItem = document.querySelector("div.film.item")
 
-
-fetch("http://localhost:3000/films/1")
-.then(response => response.json())
-.then(firstMovieObj => {
-    displayMovieInfo(firstMovieObj)
-})
-
-let displayMovieInfo = (movie) => {
-    moviePoster.src = movie.poster
-    movieTitle.innerText = movie.title
-    movieRuntime.innerText = `${movie.runtime} minutes`
-    movieDesc.innerText = movie.description
-    movieShowtime.innerText = movie.showtime
-
-    let tickets = findRemainingTickets(movie.capacity, movie.tickets_sold)
-    movieRemainingTickets.innerText = tickets
-
-    buyTicket.addEventListener("click", (evt) => {
-        if (tickets > 0) {
-            let boughtTicket = movie.tickets_sold + 1
-            //updates the backend
-            fetch(`http://localhost:3000/films/${movie.id}`, {
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    tickets_sold: boughtTicket
-                })
-            })
-            .then(response => response.json())
-            .then(updatedMovieObj=> {
-                //updates the object in memory
-                movie.tickets_sold = updatedMovieObj.tickets_sold
-
-                //updates the DOM
-                tickets = findRemainingTickets(updatedMovieObj.capacity, updatedMovieObj.tickets_sold)
-                movieRemainingTickets.innerText = tickets
-            })
-        }
-    })
-
-}
-
-let findRemainingTickets = (theaterCapacity, soldTickets) => {
-    return theaterCapacity - soldTickets
-}
+// First Core Deliverable
+// fetch("http://localhost:3000/films/1")
+// .then(response => response.json())
+// .then(firstMovieObj => {
+//     displayMovieInfo(firstMovieObj)
+// })
 
 fetch(url)
 .then(response => response.json())
@@ -84,4 +43,54 @@ let turnMovieToDiv = (movie) => {
     movieDiv.addEventListener("click", (evt) => {
         displayMovieInfo(movie)
     })
+}
+
+let displayMovieInfo = (movie) => {
+    moviePoster.src = movie.poster
+    movieTitle.innerText = movie.title
+    movieRuntime.innerText = `${movie.runtime} minutes`
+    movieDesc.innerText = movie.description
+    movieShowtime.innerText = movie.showtime
+
+    let tickets = findRemainingTickets(movie.capacity, movie.tickets_sold)
+    movieRemainingTickets.innerText = tickets
+    // debugger
+    buyTicket.addEventListener("click", (evt) => {
+        // debugger
+        if (tickets > 0) {
+            let boughtTicket = movie.tickets_sold + 1
+            //updates the backend
+            fetch(`http://localhost:3000/films/${movie.id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tickets_sold: boughtTicket
+                })
+            })
+            .then(response => response.json())
+            .then(updatedMovieObj=> {
+                //updates the object in memory
+                movie.tickets_sold = updatedMovieObj.tickets_sold
+
+                //updates the DOM
+                tickets = findRemainingTickets(updatedMovieObj.capacity, updatedMovieObj.tickets_sold)
+                movieRemainingTickets.innerText = tickets
+
+                if (tickets === 0) {
+                    buyTicket.innerText = "Sold Out"
+                    buyTicket.className = "ui label"
+                }
+            })
+        } else if (tickets === 0) {
+            buyTicket.innerText = "Sold Out"
+            buyTicket.className = "ui label"
+        }
+    })
+
+}
+
+let findRemainingTickets = (theaterCapacity, soldTickets) => {
+    return theaterCapacity - soldTickets
 }
