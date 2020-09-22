@@ -42,55 +42,86 @@ let showMeMovieInfo = movie => {
     movieInfo.innerText = `${movie.description}`
     movieShowtime.innerText = `${movie.showtime}`
 
+    // let capacity = `${movie.capacity}`
+    // let ticketsSold = `${movie.tickets_sold}`
+    // let ticketsLeft = capacity - ticketsSold
+
+    
+
+    movieTickets.innerText = ticketMath(movie)
+
+
+}
+
+let ticketMath = movie => {
     let capacity = `${movie.capacity}`
     let ticketsSold = `${movie.tickets_sold}`
     let ticketsLeft = capacity - ticketsSold
 
-    movieTickets.innerText = `${ticketsLeft}`
+    return ticketsLeft
 
 
 }
 
 
-
-
 buyTicket.addEventListener("click", evt => {
+    // console.log("This is the globalFilmObj:", globalFilmObj)
+
+    // capacity = `${globalFilmObj.capacity}`
+
+   
     
-    
-    console.log("This is the globalFilmObj:", globalFilmObj)
-    capacity = `${globalFilmObj.capacity}`
-    ticketsSold = `${globalFilmObj.tickets_sold}`
-    
-    ticketsSold++
-
-    ticketsLeft = capacity - ticketsSold
-    console.log("🐶")
-
-    console.log("Tickets sold:", ticketsSold)
-    
-    fetch(`http://localhost:3000/films/${globalFilmObj.id}`, {
-        method: 'PATCH', 
-        headers: {
-            'Content-Type': 'application/json',
-         },
-        body: JSON.stringify({
-            tickets_sold: ticketsSold
-            })
-        })
-        .then(res => res.json())
-        .then(updatedObj => {
-            console.log("what is this:", updatedObj)
-
-            //Updating in memory 
-            ticketsSold = updatedObj.tickets_sold
-            
-
-            //Updating in the DOM
-            movieTickets.innerText = `${ticketsLeft}`
-
-           
-
-            })
+    if(ticketMath(globalFilmObj) > 0 ) {
+        //if it is greater than 0 then I can sell a ticket
         
-    })
+        ticketsSold = globalFilmObj.tickets_sold++
+
+        // console.log("Tickets sold:", ticketsSold)
+    
+        fetch(`http://localhost:3000/films/${globalFilmObj.id}`, {
+            method: 'PATCH', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                tickets_sold: ticketsSold
+                })
+            })
+            .then(res => res.json())
+            .then(updatedObj => {
+                console.log("what is this:", updatedObj)
+                //Updating in memory 
+                ticketsSold = updatedObj.tickets_sold
+                
+                //Updating in the DOM
+                movieTickets.innerText = ticketMath(updatedObj)
+                })
+    }   
+    
+    if(ticketMath(globalFilmObj) === 0) {
+        ticketsSold = globalFilmObj.tickets_sold++
+
+        // console.log("Tickets sold:", ticketsSold)
+    
+        fetch(`http://localhost:3000/films/${globalFilmObj.id}`, {
+            method: 'PATCH', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                tickets_sold: ticketsSold
+                })
+            })
+            .then(res => res.json())
+            .then(updatedObj => {
+                console.log("what is this:", updatedObj)
+                //Updating in memory 
+                ticketsSold = updatedObj.tickets_sold
+                
+                //Updating in the DOM
+                movieTickets.innerText = `Sold Out. There are no `
+                })
+    }
+})
+
 //callback functions are at the mercy of the function that is receiving it
