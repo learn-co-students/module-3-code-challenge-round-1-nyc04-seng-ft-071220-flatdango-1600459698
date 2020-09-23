@@ -2,6 +2,10 @@ body {
     background-color:#EBEBEB;
 }
 
+#films { 
+    cursor: pointer; 
+}
+
 .heading {
     background-color: #333333;
     margin-bottom: 20px;
