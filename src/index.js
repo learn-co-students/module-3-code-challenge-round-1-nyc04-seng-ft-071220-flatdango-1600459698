@@ -2,7 +2,7 @@ const url = "http://localhost:3000/films"
 let titleUl = document.querySelector("div#films")
 let filmImage = document.querySelector("#poster")
 let filmTitle = document.querySelector("div#title")
-
+let filmRuntime = document.querySelector("div#runtime")
 
 /// grabbing the objects from the api/json file
 fetch(`http://localhost:3000/films`)
@@ -34,4 +34,5 @@ let renderMainFilm = (aFilm) => {
     console.log("This is a film", aFilm)
     filmImage.src = aFilm.poster
     filmTitle.innerText = aFilm.title
+    filmRuntime.innerText = aFilm.runtime
 }
