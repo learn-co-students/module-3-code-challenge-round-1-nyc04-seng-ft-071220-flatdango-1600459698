@@ -1,6 +1,6 @@
 const url = "http://localhost:3000/films"
 const url1 = "http://localhost:3000/films/1"
-const filmShowCard = document.querySelector("div#showing.ui.card")
+const filmShowCardDiv = document.querySelector("div#showing.ui.card")
 const filmTitle = document.querySelector("div#title")
 const filmRuntime = document.querySelector("div#runtime")
 const filmCapacity = document.querySelector("div.content")
@@ -14,12 +14,12 @@ const filmBuyButton = document.querySelector("div.ui.orange.button")
 fetch(url)
 .then(res => res.json())
 .then((filmsArr) => {
-    rennderFirstFilm(filmsArr)
+    renderFirstFilm(filmsArr)
     filmsArr.forEach((film) => {
 
     })
 })
-let rennderFirstFilm = (filmsArr) => {
+let renderFirstFilm = (filmsArr) => {
     let firstfilm = filmsArr[0]
 
     mainFilmShowing(firstfilm)
@@ -28,14 +28,14 @@ let rennderFirstFilm = (filmsArr) => {
 let mainFilmShowing = (film) => {
     filmTitle.innerText = film.title
     filmRuntime.innerText = `${film.runtime} minutes`
-    filmCapacity.innerText = film.capacity
+    //filmCapacity.innerText = film.capacity
     filmDescription.innerText = film.description
     filmShowtime.innerText = film.showtime
     filmTicketNum.innerText = `${film.ticketNum} remaining tickets` //(film.capacity - film.ticketNum) = 
     filmPoster.src = film.image
 // need to substract the number of tickets from the number of the capacity to find the 
 // remaining ticket number
-
+    let filmTicketNum = capacityNum - ticketNum
 
     filmShowCardDiv.innerHTML = ""
 
@@ -55,10 +55,11 @@ let mainFilmShowing = (film) => {
             })
 
         })
+        // 
         .then(res => res.json())
         .then((updatedTicketNum) =>{
-            filmTicketNum.innerText = (film.capacity - film.ticketNum) 
-            film.ticketNum = updatedTicketNum.ticketNum 
+            filmTicketNum.innerText = (film.capacity - film.ticketNum) // update the DOM
+            film.ticketNum = updatedTicketNum.ticketNum // update obj in memory
         })
     })
 
