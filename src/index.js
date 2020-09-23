@@ -1,6 +1,8 @@
 const url = "http://localhost:3000/films"
 const url1 = "http://localhost:3000/films/1"
+
 // Stable elements:
+
 //SIDE BAR for MOVIE TITLES
 // const moviesBoxLeftSideMenu = document.querySelector("div#films")
 // const moviesTitleLeftSideMenu = moviesBoxLeftSideMenu.children[1]
@@ -21,6 +23,7 @@ const ticketButton = document.querySelector("div.ui.orange.button")
 
 let movieGlobal = {}
 
+
 fetch(url1)
     .then(res => res.json())
     .then(firstMovie => {
@@ -37,9 +40,9 @@ fetch(url1)
         showtimeSpan.innerText = firstMovie.showtime
         ticketNumSpan.innerText = firstMovie.capacity - firstMovie.tickets_sold
         ticketButton.id = `button${firstMovie.id}`
-        
+
         soldOut()
-      }
+    }
 
 // fetch(url)
 //     .then(res => res.json())
@@ -84,13 +87,14 @@ ticketButton.addEventListener("click", (evt) => {
                     ticketNumSpan.innerText = newRemainTicket
                     // Update the POJO in memory
                     movieGlobal.tickets_sold = updatedTicketInst.tickets_sold
+
                 })
-              }
+    }
             //   if movie.tickets_sold_out < 
             // 1. calculate the number of tickets that are availbale (capacity - tickets_sold) outside of fetch
             // 2. structure of fetch request: 
             // 3. write the condition for available tickets (if else) 
-  })
+})
     
 function soldOut() {
   currentBtn = document.querySelector(`div#button${movieGlobal.id}`)
