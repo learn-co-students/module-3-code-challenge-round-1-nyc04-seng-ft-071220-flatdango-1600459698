@@ -56,3 +56,8 @@ li.list:hover {
 li.list{
     border-bottom-style: solid;
 }
+
+.soldout{
+  color: rgb(149, 158, 149);
+  text-decoration: line-through;
+}

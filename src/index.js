@@ -14,7 +14,10 @@ fetch(url)
   .then((films) => {
     let firstFilm = films[0];
     renderFilmInfo(firstFilm);
-    films.forEach((film) => createFilmLi(film));
+    films.forEach((film) => {
+      createFilmLi(film);
+      soldOut(film);
+    });
     handleButton(films);
   });
 
@@ -29,24 +32,23 @@ function renderFilmInfo(film) {
   buyTicketButton.dataset.id = film.id;
   buyTicketButton.setAttribute("id", `buy-ticket-${film.id}`);
   filmTicketnum.innerText = film.capacity - film.tickets_sold;
-  soldOut(film);
 }
 
 function createFilmLi(film) {
   let filmObj = document.createElement("li");
   filmObj.innerText = film.title;
   filmObj.setAttribute("id", `film-obj-${film.id}`);
-  filmObj.classList.add("list")
+  filmObj.classList.add("list");
   filmItem.append(filmObj);
   filmObj.addEventListener("click", () => {
     renderFilmInfo(film);
-    soldOut(film);
   });
 }
 
 function handleButton(films) {
   buyTicketButton.addEventListener("click", (e) => {
     let filmObj = films.find((film) => film.id === e.target.dataset.id);
+    // console.log(filmObj);
     buttonHelper(e, filmObj);
     let newTicketSoldNum = filmObj.tickets_sold;
     fetch(`${url}/${filmObj.id}`, {
@@ -59,12 +61,13 @@ function handleButton(films) {
         tickets_sold: newTicketSoldNum,
       }),
     })
-    .then((r) => r.json())
-    .then((updatedData)=>{
-        if (updatedData.tickets_sold == updatedData.capacity){
-            e.target.innerText = "Sold Out";
+      .then((r) => r.json())
+      .then((updatedData) => {
+        if (updatedData.tickets_sold == updatedData.capacity) {
+          e.target.innerText = "Sold Out";
+          soldOutStyle(updatedData);
         }
-    });
+      });
   });
 }
 
@@ -85,8 +88,14 @@ function buttonHelper(e, filmObj) {
 function soldOut(film) {
   const orangeButton = document.querySelector("div.ui.orange.button");
   if (film.tickets_sold == film.capacity || film.tickets_sold > film.capacity) {
-    orangeButton.innerText = "Sold out";
+    orangeButton.innerText = "Sold Out";
+    soldOutStyle(film);
   } else {
     orangeButton.innerText = "Buy Ticket";
   }
+}
+
+function soldOutStyle(film) {
+  const soldOut = document.querySelector(`#film-obj-${film.id}`);
+  soldOut.classList.add("soldout");
 }
