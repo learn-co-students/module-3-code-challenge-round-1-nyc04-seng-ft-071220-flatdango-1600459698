@@ -1,9 +1,9 @@
 body {
-    background-color:#EBEBEB;
+    background-color:#45abda;
 }
 
 .heading {
-    background-color: #333333;
+    background-color: #797974;
     margin-bottom: 20px;
     padding: 5px 0px 5px 15px;
 }
@@ -15,17 +15,17 @@ body {
 }
 
 #runtime {
-    background-color: #333333;
-    color: #4d99e6;
+    background-color: #f5f82f;
+    color: #e44a2f;
     padding: 0px 0px 5px 5px;
 }
 
 .content {
-    color: #d93ede;
+    color: #e5e90c;
 }
 
 #subtitle {
-    color: rgb(214, 46, 46);
+    color: rgb(37, 35, 35);
     margin-left: 55px;
 }
 
