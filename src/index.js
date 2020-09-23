@@ -5,6 +5,9 @@ let filmTitle = document.querySelector("div#title")
 let filmRuntime = document.querySelector("div#runtime")
 let filmShowtime = document.querySelector("#showtime")
 let filmDescr = document.querySelector("#film-info")
+
+
+
 /// grabbing the objects from the api/json file
 fetch(`http://localhost:3000/films`)
 .then (response => response.json())
@@ -23,19 +26,38 @@ let turnFilmLiToHTML = (filmObj) => {
    //grabbing the title
     titleUl.append(sidebarTitleLi)
     // adding it to the DOM
+    sidebarTitleLi.addEventListener("click", (evt) =>{
+        renderMainFilm(filmObj) 
+
    
     sidebarTitleLi.addEventListener("click", (evt) =>{
        renderMainFilm(filmObj) 
+
+  //    let ticketNum = document.createElement("description")
+    //    ticketNum.classList.
+    //    some math is needed to get numbers of tickets left - capactity
+
+
+    //    let buyButton = document.createElement("button")
+    // buyButton.classList.add("extra content")
+    // buyButton.innerText = "Buy Ticket"
+
+
+    // buyButton.addEventListener("click", (evt)=>{
+    //     let aPurchase = film.
+    
+    // add an event listener  and have it minus
+    })
     })
 
 }
 
 
 let renderMainFilm = (aFilm) => {
-    console.log("This is a film", aFilm)
     filmImage.src = aFilm.poster
     filmTitle.innerText = aFilm.title
     filmRuntime.innerText = aFilm.runtime
-    filmShowtime.innerText = aFilm.showtime
+    filmShowtime.innerText = aFilm.showtime 
     filmDescr.innerText = aFilm.description
 }
+
