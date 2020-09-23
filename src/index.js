@@ -4,7 +4,7 @@ let filmImage = document.querySelector("#poster")
 let filmTitle = document.querySelector("div#title")
 let filmRuntime = document.querySelector("div#runtime")
 let filmShowtime = document.querySelector("#showtime")
-
+let filmDescr = document.querySelector("#film-info")
 /// grabbing the objects from the api/json file
 fetch(`http://localhost:3000/films`)
 .then (response => response.json())
@@ -37,4 +37,5 @@ let renderMainFilm = (aFilm) => {
     filmTitle.innerText = aFilm.title
     filmRuntime.innerText = aFilm.runtime
     filmShowtime.innerText = aFilm.showtime
+    filmDescr.innerText = aFilm.description
 }
