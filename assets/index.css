@@ -48,3 +48,8 @@ img {
 #film-info {
     padding-bottom: 15px;
 }
+
+li:hover{
+    cursor: pointer;
+    color:#3E8FDE;
+}

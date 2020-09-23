@@ -22,6 +22,7 @@ function renderMovie(movieId){
     .then(res => res.json())
     .then(movieObj => {
 
+
         // update the DOM elements using movieObj
         posterImage.src = movieObj.poster
         movieTitle.innerText = movieObj.title
@@ -74,6 +75,8 @@ function renderMovie(movieId){
                     ticketNum.innerText = `${ticketsLeft(updatedMovieObj)}`
                 }else{
                     ticketNum.innerText = `${ticketsLeft(updatedMovieObj)}`
+                    buyTicketBtn.className = "ui orange button"
+                    buyTicketBtn.innerText = "Buy Ticket"
                 }
             })
         })
@@ -91,5 +94,40 @@ function renderFirstMovie(){
 }
 
 renderFirstMovie()
+
+//Advanced Deliverables Below
+const movieListDiv = document.querySelector("#films")
+// puts the word "Movies" into the inner text of the first div element inside movieListDiv
+movieListDiv.querySelector("div").innerText = "Movies"
+
+const filmsDiv = movieListDiv.children[1]
+filmsDiv.innerText = ""
+
+//fetch request to get access to all the movies so I can add them to filmsDiv
+fetch(url)
+.then(res => res.json())
+.then(movieArr => {
+    //movieArr is an array of objects
+    const movieUl = document.createElement("ul")
+    movieUl.className = "divided list"
+
+
+    movieArr.forEach(movie => {
+        const movieLi = document.createElement("li")
+        movieLi.innerText = movie.title
+        movieLi.className = "film item"
+        movieLi.style.borderBottom = "solid 0.5px lightgray"
+        movieUl.append(movieLi)
+
+        //create a click event listener for each li
+        movieLi.addEventListener("click", () =>{
+            //please note that this event listener is buggy and only works until you start pressing the buy tickets button
+            renderMovie(movie.id)
+        })
+    })
+
+    filmsDiv.append(movieUl)
+})
+
 
 
