@@ -10,7 +10,7 @@ Flatiron Movie Theater is open for business! You will be building out an applica
 
 - Fork and clone this repository.
 - Open `index.html` in your browser.
-- Run `json-server --watch db.json` to start the backend.
+- Run `c` to start the backend.
 
 ## Endpoints
 
