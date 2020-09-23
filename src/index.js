@@ -9,7 +9,6 @@ const description = document.querySelector("#film-info")
 const ticketNum = document.querySelector("#ticket-num")
 const showTime = document.querySelector("#showtime")
 const buyTicketBtn = document.querySelector("div.ui.orange.button")
-buyTicketBtn.setAttribute("type", "button")
 
 //helper function to calculate how many tickets are left
 const ticketsLeft = (movieObj) => movieObj.capacity - movieObj.tickets_sold
@@ -65,8 +64,17 @@ function renderMovie(movieId){
                 //update tickets sold in memory
                 movieObj.tickets_sold = updatedMovieObj.tickets_sold
 
+                //if the number of tickets sold === capacity change the button to sold out
+                //else update the tickets in the DOM and keep the regular button
                 //update tickets sold in the DOM
-                ticketNum.innerText = `${ticketsLeft(updatedMovieObj)}`
+
+                if(updatedMovieObj.tickets_sold == updatedMovieObj.capacity){
+                    buyTicketBtn.className = "ui button"
+                    buyTicketBtn.innerText = "Sold Out"
+                    ticketNum.innerText = `${ticketsLeft(updatedMovieObj)}`
+                }else{
+                    ticketNum.innerText = `${ticketsLeft(updatedMovieObj)}`
+                }
             })
         })
 
