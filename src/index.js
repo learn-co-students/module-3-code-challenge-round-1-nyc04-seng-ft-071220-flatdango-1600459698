@@ -1,5 +1,7 @@
-// If I have time in the morning, fix bug that happens when ticketsRemaining is less than 0
-
+// If I have time in the morning, fix bug that happens when ticketsRemaining is less than 0...
+//      Also, when one buttone greys to "sold out", all are changing to "sold out".  Make
+//          creating the button part of mainMovie, replace default ".ui.orange.button" with
+//          one that is generated with each mainMovie()
 
 const url = "http://localhost:3000/films"
 
