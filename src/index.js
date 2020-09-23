@@ -14,6 +14,7 @@ let sidebarTitles = document.querySelector("div#films")
 let globalFilmObj = {}
 
 
+
 //Communicate with the backend to display movie information (right hand side)
 fetch(url)
     .then(res => res.json())
