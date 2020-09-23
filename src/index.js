@@ -1,7 +1,7 @@
 const url = "http://localhost:3000/films"
 let titleUl = document.querySelector("div#films")
 let filmImage = document.querySelector("#poster")
-
+let filmTitle = document.querySelector("div#title")
 
 
 /// grabbing the objects from the api/json file
@@ -33,4 +33,5 @@ let turnFilmLiToHTML = (filmObj) => {
 let renderMainFilm = (aFilm) => {
     console.log("This is a film", aFilm)
     filmImage.src = aFilm.poster
+    filmTitle.innerText = aFilm.title
 }
