@@ -12,12 +12,12 @@ const filmItem = document.querySelector("div.film.item");
 fetch(url)
   .then((r) => r.json())
   .then((films) => {
-    let firstFilm = films[0];
-    renderFilmInfo(firstFilm);
     films.forEach((film) => {
       createFilmLi(film);
       soldOut(film);
     });
+    let firstFilm = films[0];
+    renderFilmInfo(firstFilm);
     handleButton(films);
   });
 
@@ -32,6 +32,7 @@ function renderFilmInfo(film) {
   buyTicketButton.dataset.id = film.id;
   buyTicketButton.setAttribute("id", `buy-ticket-${film.id}`);
   filmTicketnum.innerText = film.capacity - film.tickets_sold;
+  soldOut(film);
 }
 
 function createFilmLi(film) {
