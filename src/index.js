@@ -9,6 +9,8 @@ const filmTicketnum = document.querySelector("span#ticket-num");
 const buyTicketButton = document.querySelector("div.ui.orange.button");
 const filmItem = document.querySelector("div.film.item");
 
+let filmGlo = {};
+
 fetch(url)
   .then((r) => r.json())
   .then((films) => {
@@ -24,6 +26,7 @@ fetch(url)
 //   helper functions
 
 function renderFilmInfo(film) {
+  filmGlo = film;
   filmPost.src = film.poster;
   filmTitle.innerText = film.title;
   filmRuntime.innerText = film.runtime;
@@ -48,8 +51,7 @@ function createFilmLi(film) {
 
 function handleButton(films) {
   buyTicketButton.addEventListener("click", (e) => {
-    let filmObj = films.find((film) => film.id === e.target.dataset.id);
-    // console.log(filmObj);
+    let filmObj = filmGlo
     buttonHelper(e, filmObj);
     let newTicketSoldNum = filmObj.tickets_sold;
     fetch(`${url}/${filmObj.id}`, {
@@ -73,11 +75,7 @@ function handleButton(films) {
 }
 
 function buttonHelper(e, filmObj) {
-  if (
-    filmObj.tickets_sold == filmObj.capacity ||
-    filmObj.tickets_sold > filmObj.capacity
-  ) {
-    filmTicketnum.innerText = 0;
+  if (filmObj.tickets_sold == filmObj.capacity) {
     e.target.innerText = "Sold Out";
   } else {
     e.target.innerText = "Buy Ticket";
