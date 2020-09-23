@@ -1,6 +1,8 @@
 const url = "http://localhost:3000/films"
 //**poster, title, runtime, showtime, and available tickets**
 
+let extraContentDiv = document.querySelector("div.extra-content")
+
 fetch("http://localhost:3000/films/1")
     .then(resp => resp .json()) 
     .then((filmObj) => {
@@ -26,28 +28,48 @@ fetch("http://localhost:3000/films/1")
         showTimeUi.innerText = filmObj.showtime
             // console.log(filmObj.showtime)
 
-    //wanted to add 
+    //Added to make it look more complete 
     let descriptionDiv = document.querySelector("#film-info")
         descriptionDiv.innerText = filmObj.description
         // console.log(filmObj.description)
     
     let ticketNum = document.querySelector("#ticket-num")
-        ticketNum.innerText = filmObj.capicity- filmObj.tickets_sold
-        // console.log(filmObj.tickets_sold) 
+        ticketNum.innerText = filmObj.capicity-filmObj.tickets_sold
+        console.log(filmObj.capicity - filmObj.tickets_sold)
 
 }
 
-    buyButton.addEventListner("click", (evt) =>{
-        let theRemainingTickets = filmObj.tickets_sold + 1 
-        console.log("Your ticket Purchase was Successful")
+    //I know the remaining part needs a if/else statment but I could't figure out how to
+    // let buyButtonDiv = document.querySelector("div.extra-content")
+    // let extraContentDiv = document.querySelector("div.extra-content")
 
 
-    })
+    // extraContentDiv.addEventListener("click", (evt) => { 
+    //     // let theRemainingTickets = filmObj.tickets_sold + 1 
+    //     let extraContentDiv = filmObj.tickets_sold + 1 
+         //console.log("Purchase successful")
 
+        // fetch(`http:/localhost:3000/films/${film.id}`, {
+        //     method: "PATCH",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Accept: "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //       tickets_sold: tickets_sold + 1
+        //     })
+         
+        //   })
+        //   .then(res => res.json())
+        //  
+        //   .then((updatedFilmObj) => {
+        //    
+        //      extraContentDiv.innerText = `${updatedTickets_sold} remaining_tickets`
+        //   
+        //    extraContentDiv = updatedextraContentDiv
+        //   })
+        
 
-  
+       
 
-
-
-    
-
+      
