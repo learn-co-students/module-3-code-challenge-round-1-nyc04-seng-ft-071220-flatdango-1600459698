@@ -1,12 +1,30 @@
 const url = "http://localhost:3000/films"
 
-
+let titlesUL = document.querySelector(".ui.divided.list")
 
 fetch(url)
 .then(res => res.json())
 .then((filmsArray) => {
-        createFilmInfo(filmsArray[0])
+        filmsArray.forEach((singularFilm) =>{
+            turnFilmIntoLi(singularFilm)
+        })
+        
+        // createFilmInfo(filmsArray[0])
     })
+
+
+let turnFilmIntoLi = (film) => {
+    let movieDiv = document.createElement("div")
+    movieDiv.className = "film item"
+    movieDiv.innerHTML = film.title
+    titlesUL.appendChild(movieDiv)
+
+    movieDiv.addEventListener("click", (evt) => {
+            createFilmInfo(film)
+            
+    })
+
+}
 
 let createFilmInfo = (film) => {
     let title = document.querySelector("div#title")
@@ -24,14 +42,19 @@ let createFilmInfo = (film) => {
     remainingTickets.innerHTML = numTickets
     let buyButton = (document.querySelector('div#buybutton'))
     buyButton.addEventListener("click", (evt) =>{
+
+        let buyButton = (document.querySelector('div#buybutton'))
         if (numTickets > 0){
             numTickets = numTickets - 1
             remainingTickets.innerHTML = numTickets
+            buyButton.innerHTML = "BUY TICKET"
+            buyButton.className = "ui orange button"
         }
         if (numTickets < 1){
-            let buyButton = (document.querySelector('div#buybutton'))
+            
             buyButton.innerHTML = "SOLD OUT"
             buyButton.className = "sold-out"
+
         }
        
     })
