@@ -14,10 +14,12 @@ let createFilmInfo = (film) => {
     let description = document.querySelector("div#film-info")
     let showtime = document.querySelector("span#showtime")
     let remainingTickets = document.querySelector("span#ticket-num")
+    let moviePoster = document.querySelector("img")
     title.innerHTML = film.title
     runtime.innerHTML = film.runtime + " minutes"
     description.innerHTML = film.description
     showtime.innerHTML = film.showtime
+    moviePoster.src = film.poster
     let numTickets = getTicketnumber(film)
     remainingTickets.innerHTML = numTickets
     let buyButton = (document.querySelector('div#buybutton'))
@@ -26,8 +28,13 @@ let createFilmInfo = (film) => {
             numTickets = numTickets - 1
             remainingTickets.innerHTML = numTickets
         }
+        if (numTickets < 1){
+            let buyButton = (document.querySelector('div#buybutton'))
+            buyButton.innerHTML = "SOLD OUT"
+            buyButton.className = "sold-out"
+        }
        
-})
+    })
 }
 
 let getTicketnumber = (film) => {
