@@ -11,6 +11,7 @@ const ticketButton = document.querySelector("div.ui.orange.button")
 
 // create a global movie variable 
 let globalMovie = {}
+let globalDiv = undefined
 
 // use a GET fetch request to pull all the movie data
 fetch(url)
@@ -28,13 +29,15 @@ let renderMovieList = (movie) => {
   let movieDiv = document.createElement("div")
   movieDiv.className = "film item"
   movieDiv.innerText = movie.title 
-  movieDiv.id = `list-${movie.id}`
   listContainer.append(movieDiv)
+
+  globalDiv = movieDiv
 
   changeMovieStatus(movie)
 
   movieDiv.addEventListener("click", (evt) => {
     mainMovie(movie)
+    globalDiv = movieDiv
   })    
 }
 
@@ -56,7 +59,7 @@ let mainMovie = (movie) => {
 // use a PATCH fetch request to update the number of tickets sold for a single movie
 ticketButton.addEventListener("click", (event) => {
 
-  if (globalMovie.capacity == globalMovie.tickets_sold) {
+  if (parseInt(globalMovie.capacity) === globalMovie.tickets_sold) {
     globalMovie.tickets_sold
   } else {
     globalMovie.tickets_sold = globalMovie.tickets_sold + 1
@@ -83,7 +86,7 @@ ticketButton.addEventListener("click", (event) => {
 
 // helper method for figuring out if the "buy ticket" button should be active or not
 let soldOutButton = (movie) => {
-  if (movie.capacity == movie.tickets_sold) {
+  if (parseInt(globalMovie.capacity) === globalMovie.tickets_sold) {
     ticketButton.innerText = "Sold Out"
     ticketButton.className = "sold-out"
   } else {
@@ -94,11 +97,7 @@ let soldOutButton = (movie) => {
 
 // ADVANCED DELIVERABLE: helper method for changing the movie title's color in the sidebar if it's sold out
 let changeMovieStatus = (movie) => {
-  let thisMovie = document.getElementById(`list-${movie.id}`)
-
   if (movie.capacity == movie.tickets_sold) {
-    thisMovie.className = "sold-out"
-  } else {
-    thisMovie.className = "film item"
+    globalDiv.classList.add("sold-out")
   }
 }
