@@ -7,7 +7,7 @@ const movieDescription = document.querySelector("#film-info")
 const movieShowtime = document.querySelector("#showtime")
 const movieTickets = document.querySelector("#ticket-num")
 const ticketButton = document.querySelector("div.ui.orange.button")
-let globalMovie = ""
+let globalMovie = {}
 
 fetch(url)
 .then(r => r.json())
@@ -33,18 +33,8 @@ let renderMovieList = (movie) => {
   })    
 }
 
-let changeMovieStatus = (movie) => {
-  let thisMovie = document.getElementById(`list-${movie.id}`)
-
-  if (movie.capacity == movie.tickets_sold) {
-    thisMovie.className = "sold-out"
-  } else {
-    thisMovie.className = "film item"
-  }
-}
-
 let mainMovie = (movie) => {
-  globalMovie = movie 
+  globalMovie = movie
 
   soldOutButton(globalMovie)
 
@@ -54,9 +44,36 @@ let mainMovie = (movie) => {
   movieDescription.innerText = globalMovie.description
   movieShowtime.innerText = globalMovie.showtime
   movieTickets.innerText = `${globalMovie.capacity - globalMovie.tickets_sold}`
-
-  ticketButtonClick(globalMovie)
 }
+
+ticketButton.addEventListener("click", (event) => {
+
+  console.log(globalMovie)
+
+  if (globalMovie.capacity == globalMovie.tickets_sold) {
+    globalMovie.tickets_sold
+  } else {
+    globalMovie.tickets_sold = globalMovie.tickets_sold + 1
+  }
+  
+  fetch(`${url}/${globalMovie.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      tickets_sold: globalMovie.tickets_sold
+    })
+  })
+  .then(r => r.json())
+  .then((updatedMovie) => {
+    globalMovie.tickets_sold = updatedMovie.tickets_sold
+    movieTickets.innerText = `${globalMovie.capacity - globalMovie.tickets_sold}`
+
+    soldOutButton(globalMovie)
+    changeMovieStatus(globalMovie)
+  })
+})
 
 let soldOutButton = (movie) => {
   if (movie.capacity == movie.tickets_sold) {
@@ -68,31 +85,12 @@ let soldOutButton = (movie) => {
   }
 }
 
-let ticketButtonClick = (movie) => {
-    ticketButton.addEventListener("click", (event) => {
+let changeMovieStatus = (movie) => {
+  let thisMovie = document.getElementById(`list-${movie.id}`)
 
-      if (movie.capacity != movie.tickets_sold) {
-        movie.tickets_sold = movie.tickets_sold + 1
-      } else {
-        movie.tickets_sold
-      }
-      
-      fetch(`${url}/${movie.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          tickets_sold: movie.tickets_sold
-        })
-      })
-      .then(r => r.json())
-      .then((updatedMovie) => {
-        movie.tickets_sold = updatedMovie.tickets_sold
-        movieTickets.innerText = `${movie.capacity - movie.tickets_sold}`
-
-        soldOutButton(movie)
-        changeMovieStatus(movie)
-      })
-    })
+  if (movie.capacity == movie.tickets_sold) {
+    thisMovie.className = "sold-out"
+  } else {
+    thisMovie.className = "film item"
+  }
 }
