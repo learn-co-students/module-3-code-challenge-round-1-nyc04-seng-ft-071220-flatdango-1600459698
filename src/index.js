@@ -9,7 +9,7 @@ const movieShowtime = document.querySelector("#showtime")
 const movieTickets = document.querySelector("#ticket-num")
 const ticketButton = document.querySelector("div.ui.orange.button")
 
-// create a global movie variable 
+// create a global movie and global div variable 
 let globalMovie = {}
 let globalDiv = undefined
 
@@ -97,7 +97,7 @@ let soldOutButton = (movie) => {
 
 // ADVANCED DELIVERABLE: helper method for changing the movie title's color in the sidebar if it's sold out
 let changeMovieStatus = (movie) => {
-  if (movie.capacity == movie.tickets_sold) {
+  if (parseInt(movie.capacity) === movie.tickets_sold) {
     globalDiv.classList.add("sold-out")
   }
 }
