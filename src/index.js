@@ -2,13 +2,14 @@ const url = "http://localhost:3000/films"
 
 //stable elements
 
-movieTitle = document.querySelector("#title")
-movieDescrip = document.querySelector("#film-info")
-movieRuntime = document.querySelector("#runtime")
-movieShowTime = document.querySelector("#showtime")
-movieTickRem = document.querySelector("#ticket-num")
-moviePoster = document.querySelector("#poster")
-buyTicket = document.querySelector(".ui.orange.button")
+let movieTitle = document.querySelector("#title")
+let movieDescrip = document.querySelector("#film-info")
+let movieRuntime = document.querySelector("#runtime")
+let movieShowTime = document.querySelector("#showtime")
+let movieTickRem = document.querySelector("#ticket-num")
+let moviePoster = document.querySelector("#poster")
+let buyTicket = document.querySelector(".ui.orange.button")
+let currentMovie 
 
 let movieDiv = document.querySelector("#films")
 // console.log(movieDiv)
@@ -38,6 +39,7 @@ let addMovieInfoToList = (movieObj) => {
     moviesCard.addEventListener("mouseover", (evt) => {
         displayMovie(movieObj)
         // console.log(movieObj)
+        currentMovie = movieObj
     })
 
 }
@@ -57,26 +59,25 @@ let displayMovie = (movie) => {
     movieShowTime.innerText = movie.showtime
     movieTickRem.innerText = movie.capacity - movie.tickets_sold  
 
-    buyMovie(movie)
+    // buyMovie(movie)
 }
 
-let buyMovie = (movie) => {
-    buyTicket.addEventListener("click", (evt) => {
-        newTickSold = movie.tickets_sold + 1
-        fetch(`${url}/${movie.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify({
-                tickets_sold: newTickSold
-            })
+buyTicket.addEventListener("click", (evt) => {
+    console.log(currentMovie)
+    newTickSold = currentMovie.tickets_sold += 1 
+    fetch(`${url}/${currentMovie.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({
+            tickets_sold: newTickSold
         })
-        .then(res => res.json())
-        .then(newMovieTicObj => {
-            ticketsRemaining.innerText = movie.capacity - updatedMovie.tickets_sold
-        })
-       
     })
-}
+    .then(res => res.json())
+    .then(newMovieTicObj => {
+        movieTickRem.innerText = newMovieTicObj.capacity - newMovieTicObj.tickets_sold
+    })
+    
+})
